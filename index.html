@@ -1,178 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Divine Battle | Ludo Tournament</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Divine Battle — Ludo Tournament</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#0b1020;color:#fff;font-family:Arial,sans-serif}
-header{background:#172344;padding:20px;text-align:center;border-bottom:2px solid #f8c447}
-h1{color:#ffd15c;margin:0}
-.subtitle{color:#cbd5e1}
-main{max-width:850px;margin:25px auto;padding:15px}
-.card{background:#172344;border:1px solid #354568;border-radius:14px;padding:22px;margin:15px 0}
-input,select{display:block;width:100%;padding:12px;margin:12px 0;border-radius:7px;border:1px solid #52617e;background:#0b1020;color:white}
-button{background:#ffd15c;color:#111827;font-weight:bold;border:0;border-radius:7px;padding:12px 16px;margin:5px;cursor:pointer}
-.secondary{background:#334155;color:white}
-.danger{background:#ef4444;color:white}
-.hidden{display:none}
-nav{text-align:center;margin:15px 0}
-.item{padding:12px;border-bottom:1px solid #354568}
-.small{color:#cbd5e1;font-size:13px}
+:root{--bg:#140b25;--panel:#21143b;--gold:#ffc84d;--purple:#9860ff;--text:#fff5dc;--muted:#c8bddb;--green:#21d879}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#39205d 0,#1c1032 40%,#10091d 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer;border:0}.top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#160d27;border-bottom:1px solid #4c356a;position:sticky;top:0;z-index:3}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px}.crest{width:43px;height:43px;border:2px solid var(--gold);border-radius:14px;display:grid;place-items:center;color:var(--gold);box-shadow:0 0 18px #ffc84d44}.top-actions{display:flex;gap:8px}.pill,.goldbtn{background:linear-gradient(120deg,#ffdf75,#f6a51c);color:#2b1700;border-radius:13px;padding:10px 13px;font-weight:800}.ghost{background:#392459;color:white;border:1px solid #8e6cba;border-radius:12px;padding:10px 12px;font-weight:700}.wrap{max-width:1000px;margin:auto;padding:22px 18px 95px}.notice{border:2px solid transparent;background:linear-gradient(#1d1232,#1d1232) padding-box,linear-gradient(100deg,#ffca50,#4fd9ff) border-box;border-radius:22px;padding:15px;display:flex;gap:12px;align-items:center;margin-bottom:26px}.notice-icon{background:var(--gold);color:#281500;border-radius:14px;padding:12px;font-size:20px}.notice strong{flex:1}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.section-head h2{margin:0;font-size:26px}.muted{color:var(--muted)}.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}.tile{min-height:210px;border:2px solid #b08a42;border-radius:26px;overflow:hidden;padding:18px;background:linear-gradient(135deg,#39204b,#100d1c);display:flex;flex-direction:column;justify-content:space-between}.game-art{background:radial-gradient(circle,#87531b,#201027 65%);text-align:center;align-items:center;justify-content:center}.game-art .dice{font-size:38px}.game-art h3{font-size:30px;line-height:1.05;margin:8px 0;color:#ffdb7d;text-shadow:0 3px #542700}.live{background:#0b9d55;color:white;border-radius:8px;padding:5px 9px;font-size:12px;font-weight:900;align-self:flex-start}.support{background:radial-gradient(circle at 50% 40%,#124b31,#050806 65%);align-items:center;justify-content:center;text-align:center;color:#36df81}.support .wa{font-size:60px}.banner{border:2px solid #9f8045;border-radius:24px;padding:28px 24px;min-height:185px;background:radial-gradient(circle at 70% 50%,#482080,#170d2b 65%);display:flex;align-items:center;justify-content:space-between;gap:12px}.banner h2{font-size:clamp(25px,5vw,42px);margin:8px 0}.banner .headphones{font-size:70px}.dots{text-align:center;color:#8b789e;letter-spacing:7px;padding:14px}.bottom{position:fixed;bottom:0;left:0;right:0;background:#180e29ee;border-top:1px solid #49345d;display:flex;justify-content:space-around;padding:12px 5px calc(12px + env(safe-area-inset-bottom));z-index:4}.bottom button{background:none;color:#d7c9ed;font-size:22px;padding:7px}.bottom button.active{color:var(--gold);filter:drop-shadow(0 0 7px #ffc84d)}.admin{display:none}.admin.show{display:block}.home.hide{display:none}.panel{background:#211438;border:1px solid #654b84;border-radius:18px;padding:18px;margin:16px 0}.panel h2,.panel h3{margin-top:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#2b1a45;border:1px solid #5b4278;border-radius:14px;padding:14px}.stat b{display:block;color:var(--gold);font-size:23px}.field{display:grid;gap:6px;margin:10px 0}.field input,.field select{background:#120b20;color:white;border:1px solid #755a96;border-radius:10px;padding:12px;width:100%}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{text-align:left;padding:10px;border-bottom:1px solid #49345f}th{color:var(--gold)}.small{font-size:12px;color:#c9badb}.noticebox{border-left:3px solid var(--gold);padding:10px 12px;background:#34213f;border-radius:8px;color:#ffe6a5}.actions{display:flex;gap:8px;flex-wrap:wrap}.danger{background:#7c273b;color:white;border-radius:10px;padding:9px 12px}.empty{text-align:center;padding:18px;color:#c8bddb}
+@media(max-width:560px){.wrap{padding:16px 13px 95px}.top{padding:12px}.brand{font-size:17px}.top-actions .ghost{display:none}.tiles{gap:10px}.tile{min-height:175px;padding:12px;border-radius:20px}.game-art h3{font-size:24px}.banner{padding:20px 16px;min-height:155px}.banner .headphones{font-size:48px}.stats{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.section-head h2{font-size:23px}}
 </style>
 </head>
 <body>
-<header>
-<h1>⚔ DIVINE BATTLE ⚔</h1>
-<div class="subtitle">Ludo Tournament Platform</div>
-</header>
-
-<main>
-<div class="card" id="auth">
-<h2>Player Login / Register</h2>
-<p class="small">Prototype only — अभी असली सुरक्षित अकाउंट सिस्टम नहीं है।</p>
-<input id="playerName" placeholder="Your name">
-<input id="playerEmail" type="email" placeholder="Email address">
-<button onclick="playerLogin()">Enter as Demo Player</button>
-<button class="secondary" onclick="showAdmin()">Open Admin Demo</button>
+<header class="top"><div class="brand"><div class="crest">⚔</div><span>DIVINE <span style="color:var(--gold)">BATTLE</span></span></div><div class="top-actions"><button class="pill" onclick="toast('Demo wallet: ₹0')">▣ ₹0</button><button class="ghost" onclick="openAdmin()">⚙ Admin</button></div></header>
+<main class="wrap">
+<section id="home" class="home">
+<div class="notice"><div class="notice-icon">📣</div><strong>Welcome to Divine Battle</strong><span class="muted">Play • Compete • Win</span></div>
+<div class="section-head"><div><h2>Play Arena</h2><div class="muted">Choose your favorite battle</div></div><span class="pill">🟢 Live Games</span></div>
+<div class="tiles">
+<div class="tile game-art"><span class="live">LIVE</span><div class="dice">🎲 👑 🎲</div><h3>DIVINE BATTLE<br> LUDO GAME</h3><div>🏆 🟡 🔴 🟢 🔵</div><button class="goldbtn" onclick="showMatches()">View Tournaments</button></div>
+<div class="tile support"><span class="live">LIVE</span><div class="wa">☏</div><h3>SUPPORT</h3><p>Need help? Contact admin</p><button class="ghost" onclick="toast('Add your WhatsApp support number in the source code.')">Contact Support</button></div>
 </div>
-
-<div id="player" class="hidden">
-<nav>
-<button onclick="showPlayer()">Player Home</button>
-<button class="secondary" onclick="logout()">Logout</button>
-</nav>
-<div class="card">
-<h2 id="welcome">Welcome!</h2>
-<h3>Available Tournaments</h3>
-<div id="playerTournaments"></div>
-</div>
-<div class="card">
-<h3>My Match Information</h3>
-<p id="myMatch">Match ID और रिजल्ट Admin द्वारा अपडेट होने पर यहाँ दिखेंगे।</p>
-</div>
-</div>
-
-<div id="admin" class="hidden">
-<nav>
-<button onclick="showPlayer()">Player View</button>
-<button class="secondary" onclick="logout()">Exit Admin Demo</button>
-</nav>
-<div class="card">
-<h2>Admin Panel — Demo</h2>
-<p class="small">यह पैनल सार्वजनिक prototype है। इसमें अभी कोई सुरक्षित admin permission नहीं है।</p>
-<h3>Create Tournament</h3>
-<input id="tName" placeholder="Tournament name">
-<input id="tDate" type="date">
-<input id="tFee" type="number" min="0" placeholder="Entry fee (₹)">
-<button onclick="addTournament()">Add Tournament</button>
-</div>
-<div class="card">
-<h3>Manage Tournaments</h3>
-<div id="adminTournaments"></div>
-</div>
-</div>
+<div class="banner"><div><div style="letter-spacing:3px;font-weight:800">ALWAYS ON</div><h2>24 Hours <span style="color:var(--gold)">Support</span></h2><div class="muted">Tournament updates • Fair play • Help desk</div></div><div class="headphones">🎧📱</div></div><div class="dots">● ● ● ●</div>
+<div class="panel" id="matches"><h3>Upcoming Tournaments</h3><div id="publicMatches" class="empty">No tournaments listed yet. Check back soon!</div></div>
+</section>
+<section id="admin" class="admin">
+<div class="section-head"><div><h2>Admin Dashboard</h2><div class="muted">Divine Battle management</div></div><button class="ghost" onclick="closeAdmin()">← Home</button></div>
+<div class="noticebox">Prototype mode: this dashboard is a front-end demo. It is not secured by a real login and data is stored only in this browser. Do not collect deposits or real-money entries until proper authentication, database security, and legal review are added.</div>
+<div class="panel"><h3>Overview</h3><div class="stats"><div class="stat"><span class="muted">Tournaments</span><b id="statMatches">0</b></div><div class="stat"><span class="muted">Open slots</span><b id="statSlots">0</b></div><div class="stat"><span class="muted">Status</span><b style="font-size:18px">Demo</b></div></div></div>
+<div class="panel"><h3>➕ Create tournament</h3><div class="formgrid"><label class="field">Tournament name<input id="mName" placeholder="e.g. Evening Ludo Battle"></label><label class="field">Start time<input id="mTime" placeholder="e.g. Today, 8:00 PM"></label><label class="field">Players / slots<input id="mSlots" type="number" min="2" max="1000" value="4"></label><label class="field">Match ID (optional)<input id="mId" placeholder="Will be assigned by admin"></label></div><label class="field">Rules / notes<input id="mRules" placeholder="e.g. Share result screenshot after match"></label><button class="goldbtn" onclick="addMatch()">Create tournament</button></div>
+<div class="panel"><h3>Manage tournaments</h3><div class="tablewrap"><table><thead><tr><th>Name</th><th>Time</th><th>Slots</th><th>Match ID</th><th>Action</th></tr></thead><tbody id="adminRows"><tr><td colspan="5" class="empty">No tournaments yet</td></tr></tbody></table></div></div>
+<div class="panel"><h3>📋 Result management</h3><div class="formgrid"><label class="field">Tournament<select id="resultMatch"></select></label><label class="field">Winner / result<input id="resultText" placeholder="Winner username or result"></label></div><button class="goldbtn" onclick="saveResult()">Publish result</button><div id="resultsList" class="muted" style="margin-top:12px">No results published.</div></div>
+<div class="panel"><h3>Admin settings</h3><label class="field">Public support WhatsApp number<input id="supportNumber" placeholder="e.g. 91XXXXXXXXXX"></label><button class="ghost" onclick="saveSupport()">Save support number</button><p class="small">This starter does not include real user accounts, payment/wallet processing, or secure role permissions. Those require backend setup (Firebase Authentication + Firestore security rules).</p></div>
+</section>
 </main>
-
-<footer class="small" style="text-align:center;padding:20px">
-© 2026 Divine Battle
-</footer>
-
+<nav class="bottom"><button class="active" onclick="closeAdmin()">⌂</button><button onclick="toast('Tournament support area')">♧</button><button onclick="toast('Rewards can be added in the next version')">🎁</button><button onclick="toast('Wallet UI demo only')">▣</button><button onclick="openAdmin()">♙</button></nav>
+<div id="toast" style="position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#302044;border:1px solid #ffc84d;padding:12px 16px;border-radius:12px;display:none;z-index:10;max-width:90%;text-align:center"></div>
 <script>
-let currentPlayer = "";
-let tournaments = [];
-try {
-  tournaments = JSON.parse(localStorage.getItem("db_demo_tournaments") || "[]");
-} catch(e) { tournaments = []; }
-
-function saveData(){
-  localStorage.setItem("db_demo_tournaments",JSON.stringify(tournaments));
-}
-function hideAll(){
-  ["auth","player","admin"].forEach(id=>{
-    document.getElementById(id).classList.add("hidden");
-  });
-}
-function playerLogin(){
-  const name=document.getElementById("playerName").value.trim();
-  const email=document.getElementById("playerEmail").value.trim();
-  if(!name||!email||!email.includes("@")){
-    alert("Please enter your name and a valid email.");
-    return;
-  }
-  currentPlayer=name;
-  showPlayer();
-}
-function showPlayer(){
-  hideAll();
-  document.getElementById("player").classList.remove("hidden");
-  document.getElementById("welcome").textContent="Welcome, "+(currentPlayer||"Player")+"!";
-  render();
-}
-function showAdmin(){
-  hideAll();
-  document.getElementById("admin").classList.remove("hidden");
-  render();
-}
-function logout(){
-  currentPlayer="";
-  hideAll();
-  document.getElementById("auth").classList.remove("hidden");
-}
-function addTournament(){
-  const name=document.getElementById("tName").value.trim();
-  const date=document.getElementById("tDate").value;
-  const fee=document.getElementById("tFee").value;
-  if(!name){alert("Enter a tournament name.");return;}
-  tournaments.push({
-    id:Date.now().toString().slice(-6),
-    name,date,fee:fee||"0",match:"Not assigned",result:"Pending"
-  });
-  saveData();
-  document.getElementById("tName").value="";
-  document.getElementById("tDate").value="";
-  document.getElementById("tFee").value="";
-  render();
-}
-function updateTournament(i,field,value){
-  tournaments[i][field]=value;
-  saveData();
-  render();
-}
-function deleteTournament(i){
-  if(confirm("Delete this tournament?")){
-    tournaments.splice(i,1);
-    saveData();
-    render();
-  }
-}
-function render(){
-  document.getElementById("playerTournaments").innerHTML =
-    tournaments.length ? tournaments.map(t=>
-      `<div class="item"><b>${esc(t.name)}</b>
-      <p>Date: ${esc(t.date||"Not set")} | Entry: ₹${esc(t.fee)}</p>
-      <p>Match ID: ${esc(t.match)} | Result: ${esc(t.result)}</p></div>`
-    ).join("") : "<p>No tournaments added yet.</p>";
-
-  document.getElementById("adminTournaments").innerHTML =
-    tournaments.length ? tournaments.map((t,i)=>
-      `<div class="item"><b>${esc(t.name)}</b>
-      <p>Date: ${esc(t.date||"Not set")} | Entry: ₹${esc(t.fee)}</p>
-      <label>Match ID</label>
-      <input value="${esc(t.match)}" onchange="updateTournament(${i},'match',this.value)">
-      <label>Result</label>
-      <input value="${esc(t.result)}" onchange="updateTournament(${i},'result',this.value)">
-      <button class="danger" onclick="deleteTournament(${i})">Delete</button>
-      </div>`
-    ).join("") : "<p>No tournaments created.</p>";
-}
-function esc(v){
-  return String(v??"").replace(/[&<>"']/g,c=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[c]);
-}
+const KEY='divineBattleDemoMatchesV1', RES='divineBattleDemoResultsV1';
+function getMatches(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
+function saveMatches(x){localStorage.setItem(KEY,JSON.stringify(x))}
+function openAdmin(){document.getElementById('home').classList.add('hide');document.getElementById('admin').classList.add('show');render()}
+function closeAdmin(){document.getElementById('admin').classList.remove('show');document.getElementById('home').classList.remove('hide');render()}
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display='none',2800)}
+function addMatch(){let name=document.getElementById('mName').value.trim(),time=document.getElementById('mTime').value.trim(),slots=parseInt(document.getElementById('mSlots').value,10)||4,id=document.getElementById('mId').value.trim(),rules=document.getElementById('mRules').value.trim();if(!name){toast('Please enter a tournament name');return}let ms=getMatches();ms.unshift({id:Date.now().toString(36).toUpperCase(),name,time:time||'To be announced',slots:Math.max(2,slots),matchId:id||'Pending',rules});saveMatches(ms);document.getElementById('mName').value='';document.getElementById('mTime').value='';document.getElementById('mId').value='';document.getElementById('mRules').value='';render();toast('Tournament added in this browser')}
+function removeMatch(id){saveMatches(getMatches().filter(m=>m.id!==id));render()}
+function saveResult(){let mid=document.getElementById('resultMatch').value,txt=document.getElementById('resultText').value.trim();if(!mid||!txt){toast('Choose a tournament and enter a result');return}let rs=JSON.parse(localStorage.getItem(RES)||'[]');rs.unshift({mid,txt,date:new Date().toLocaleString()});localStorage.setItem(RES,JSON.stringify(rs));document.getElementById('resultText').value='';render();toast('Result published in this browser')}
+function saveSupport(){localStorage.setItem('divineBattleSupport',document.getElementById('supportNumber').value.trim());toast('Saved in this browser only')}
+function showMatches(){document.getElementById('matches').scrollIntoView({behavior:'smooth'})}
+function render(){let ms=getMatches();document.getElementById('statMatches').textContent=ms.length;document.getElementById('statSlots').textContent=ms.reduce((n,m)=>n+m.slots,0);let rows=document.getElementById('adminRows');rows.innerHTML=ms.length?ms.map(m=>`<tr><td>${esc(m.name)}<div class="small">${esc(m.rules||'')}</div></td><td>${esc(m.time)}</td><td>${m.slots}</td><td>${esc(m.matchId)}</td><td><button class="danger" onclick="removeMatch('${m.id}')">Delete</button></td></tr>`).join(''):'<tr><td colspan="5" class="empty">No tournaments yet</td></tr>';document.getElementById('publicMatches').innerHTML=ms.length?ms.map(m=>`<div style="padding:12px 0;border-bottom:1px solid #49345f"><b>${esc(m.name)}</b><div class="muted">${esc(m.time)} · ${m.slots} slots</div><div class="small">Match ID: ${esc(m.matchId)}</div>${m.rules?'<div class="small">'+esc(m.rules)+'</div>':''}</div>`).join(''):'No tournaments listed yet. Check back soon!';let sel=document.getElementById('resultMatch');sel.innerHTML=ms.length?ms.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join(''):'<option value="">No tournaments</option>';let rs=JSON.parse(localStorage.getItem(RES)||'[]');document.getElementById('resultsList').innerHTML=rs.length?rs.map(r=>{let m=ms.find(x=>x.id===r.mid);return `<div style="padding:8px 0;border-bottom:1px solid #49345f"><b>${esc(m?m.name:'Deleted tournament')}</b>: ${esc(r.txt)}<div class="small">${esc(r.date)}</div></div>`}).join(''):'No results published.';document.getElementById('supportNumber').value=localStorage.getItem('divineBattleSupport')||''}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 render();
 </script>
-</body>
-</html>
+</body></html>
