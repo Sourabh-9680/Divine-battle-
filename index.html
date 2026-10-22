@@ -1,59 +1,178 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Divine Battle - Ludo Tournament</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #101526;
-      color: white;
-      text-align: center;
-    }
-    header {
-      padding: 24px 12px;
-      background: #202b49;
-      border-bottom: 2px solid #f5b82e;
-    }
-    h1 { color: #ffc83d; margin-bottom: 8px; }
-    main { padding: 35px 16px; }
-    .panel {
-      max-width: 500px;
-      margin: 20px auto;
-      padding: 24px;
-      background: #202b49;
-      border-radius: 16px;
-    }
-    button {
-      background: #ffc83d;
-      color: #111827;
-      border: 0;
-      padding: 13px 22px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    footer { padding: 20px; color: #cbd5e1; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Divine Battle | Ludo Tournament</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#fff;font-family:Arial,sans-serif}
+header{background:#172344;padding:20px;text-align:center;border-bottom:2px solid #f8c447}
+h1{color:#ffd15c;margin:0}
+.subtitle{color:#cbd5e1}
+main{max-width:850px;margin:25px auto;padding:15px}
+.card{background:#172344;border:1px solid #354568;border-radius:14px;padding:22px;margin:15px 0}
+input,select{display:block;width:100%;padding:12px;margin:12px 0;border-radius:7px;border:1px solid #52617e;background:#0b1020;color:white}
+button{background:#ffd15c;color:#111827;font-weight:bold;border:0;border-radius:7px;padding:12px 16px;margin:5px;cursor:pointer}
+.secondary{background:#334155;color:white}
+.danger{background:#ef4444;color:white}
+.hidden{display:none}
+nav{text-align:center;margin:15px 0}
+.item{padding:12px;border-bottom:1px solid #354568}
+.small{color:#cbd5e1;font-size:13px}
+</style>
 </head>
 <body>
-  <header>
-    <h1>⚔️ DIVINE BATTLE ⚔️</h1>
-    <p>Ludo Tournament Platform</p>
-  </header>
-  <main>
-    <div class="panel">
-      <h2>Welcome to Divine Battle</h2>
-      <p>Apne Ludo tournament ke liye taiyar ho jaiye!</p>
-      <p>यह हमारी वेबसाइट का शुरुआती होमपेज है।</p>
-      <button onclick="alert('Tournament feature jaldi aayega!')">
-        Explore Tournaments
-      </button>
-    </div>
-  </main>
-  <footer>© 2026 Divine Battle</footer>
+<header>
+<h1>⚔ DIVINE BATTLE ⚔</h1>
+<div class="subtitle">Ludo Tournament Platform</div>
+</header>
+
+<main>
+<div class="card" id="auth">
+<h2>Player Login / Register</h2>
+<p class="small">Prototype only — अभी असली सुरक्षित अकाउंट सिस्टम नहीं है।</p>
+<input id="playerName" placeholder="Your name">
+<input id="playerEmail" type="email" placeholder="Email address">
+<button onclick="playerLogin()">Enter as Demo Player</button>
+<button class="secondary" onclick="showAdmin()">Open Admin Demo</button>
+</div>
+
+<div id="player" class="hidden">
+<nav>
+<button onclick="showPlayer()">Player Home</button>
+<button class="secondary" onclick="logout()">Logout</button>
+</nav>
+<div class="card">
+<h2 id="welcome">Welcome!</h2>
+<h3>Available Tournaments</h3>
+<div id="playerTournaments"></div>
+</div>
+<div class="card">
+<h3>My Match Information</h3>
+<p id="myMatch">Match ID और रिजल्ट Admin द्वारा अपडेट होने पर यहाँ दिखेंगे।</p>
+</div>
+</div>
+
+<div id="admin" class="hidden">
+<nav>
+<button onclick="showPlayer()">Player View</button>
+<button class="secondary" onclick="logout()">Exit Admin Demo</button>
+</nav>
+<div class="card">
+<h2>Admin Panel — Demo</h2>
+<p class="small">यह पैनल सार्वजनिक prototype है। इसमें अभी कोई सुरक्षित admin permission नहीं है।</p>
+<h3>Create Tournament</h3>
+<input id="tName" placeholder="Tournament name">
+<input id="tDate" type="date">
+<input id="tFee" type="number" min="0" placeholder="Entry fee (₹)">
+<button onclick="addTournament()">Add Tournament</button>
+</div>
+<div class="card">
+<h3>Manage Tournaments</h3>
+<div id="adminTournaments"></div>
+</div>
+</div>
+</main>
+
+<footer class="small" style="text-align:center;padding:20px">
+© 2026 Divine Battle
+</footer>
+
+<script>
+let currentPlayer = "";
+let tournaments = [];
+try {
+  tournaments = JSON.parse(localStorage.getItem("db_demo_tournaments") || "[]");
+} catch(e) { tournaments = []; }
+
+function saveData(){
+  localStorage.setItem("db_demo_tournaments",JSON.stringify(tournaments));
+}
+function hideAll(){
+  ["auth","player","admin"].forEach(id=>{
+    document.getElementById(id).classList.add("hidden");
+  });
+}
+function playerLogin(){
+  const name=document.getElementById("playerName").value.trim();
+  const email=document.getElementById("playerEmail").value.trim();
+  if(!name||!email||!email.includes("@")){
+    alert("Please enter your name and a valid email.");
+    return;
+  }
+  currentPlayer=name;
+  showPlayer();
+}
+function showPlayer(){
+  hideAll();
+  document.getElementById("player").classList.remove("hidden");
+  document.getElementById("welcome").textContent="Welcome, "+(currentPlayer||"Player")+"!";
+  render();
+}
+function showAdmin(){
+  hideAll();
+  document.getElementById("admin").classList.remove("hidden");
+  render();
+}
+function logout(){
+  currentPlayer="";
+  hideAll();
+  document.getElementById("auth").classList.remove("hidden");
+}
+function addTournament(){
+  const name=document.getElementById("tName").value.trim();
+  const date=document.getElementById("tDate").value;
+  const fee=document.getElementById("tFee").value;
+  if(!name){alert("Enter a tournament name.");return;}
+  tournaments.push({
+    id:Date.now().toString().slice(-6),
+    name,date,fee:fee||"0",match:"Not assigned",result:"Pending"
+  });
+  saveData();
+  document.getElementById("tName").value="";
+  document.getElementById("tDate").value="";
+  document.getElementById("tFee").value="";
+  render();
+}
+function updateTournament(i,field,value){
+  tournaments[i][field]=value;
+  saveData();
+  render();
+}
+function deleteTournament(i){
+  if(confirm("Delete this tournament?")){
+    tournaments.splice(i,1);
+    saveData();
+    render();
+  }
+}
+function render(){
+  document.getElementById("playerTournaments").innerHTML =
+    tournaments.length ? tournaments.map(t=>
+      `<div class="item"><b>${esc(t.name)}</b>
+      <p>Date: ${esc(t.date||"Not set")} | Entry: ₹${esc(t.fee)}</p>
+      <p>Match ID: ${esc(t.match)} | Result: ${esc(t.result)}</p></div>`
+    ).join("") : "<p>No tournaments added yet.</p>";
+
+  document.getElementById("adminTournaments").innerHTML =
+    tournaments.length ? tournaments.map((t,i)=>
+      `<div class="item"><b>${esc(t.name)}</b>
+      <p>Date: ${esc(t.date||"Not set")} | Entry: ₹${esc(t.fee)}</p>
+      <label>Match ID</label>
+      <input value="${esc(t.match)}" onchange="updateTournament(${i},'match',this.value)">
+      <label>Result</label>
+      <input value="${esc(t.result)}" onchange="updateTournament(${i},'result',this.value)">
+      <button class="danger" onclick="deleteTournament(${i})">Delete</button>
+      </div>`
+    ).join("") : "<p>No tournaments created.</p>";
+}
+function esc(v){
+  return String(v??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+render();
+</script>
 </body>
 </html>
