@@ -50,4 +50,70 @@ function render(){let ms=getMatches();document.getElementById('statMatches').tex
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 render();
 </script>
+  <!-- Divine Battle Firebase Phone OTP Login -->
+<div id="db-otp-login" style="max-width:400px;margin:20px auto;padding:20px;background:#151923;color:white;border-radius:12px;font-family:Arial,sans-serif;">
+  <h2>Divine Battle Login</h2>
+  <p>Mobile number se login karein</p>
+  <input id="db-phone" type="tel" placeholder="+91 9876543210" style="width:100%;padding:12px;box-sizing:border-box;margin-bottom:10px;">
+  <div id="db-recaptcha"></div>
+  <button id="db-send-otp" type="button" style="padding:12px;width:100%;margin-bottom:10px;">Send OTP</button>
+  <input id="db-otp" type="text" inputmode="numeric" placeholder="6 digit OTP" style="width:100%;padding:12px;box-sizing:border-box;margin-bottom:10px;">
+  <button id="db-verify-otp" type="button" style="padding:12px;width:100%;">Verify OTP</button>
+  <p id="db-login-message"></p>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth,
+    RecaptchaVerifier,
+    signInWithPhoneNumber
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AlzaSyDEjhtiC2vNWWc_SvqP8iqkMBC7TiCP81Y",
+    authDomain: "divine-battle-685ba.firebaseapp.com",
+    projectId: "divine-battle-685ba",
+    appId: "1:97652744788:web:7a512e799dd9f8864343c1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  let confirmationResult;
+
+  const message = document.getElementById("db-login-message");
+  const sendButton = document.getElementById("db-send-otp");
+  const verifyButton = document.getElementById("db-verify-otp");
+
+  const recaptcha = new RecaptchaVerifier(auth, "db-recaptcha", {});
+
+  sendButton.addEventListener("click", async () => {
+    const phone = document.getElementById("db-phone").value.trim();
+    if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
+      message.textContent = "Number country code ke saath likhein, jaise +919876543210";
+      return;
+    }
+    try {
+      message.textContent = "OTP bheja ja raha hai...";
+      confirmationResult = await signInWithPhoneNumber(auth, phone, recaptcha);
+      message.textContent = "OTP bhej diya gaya. SMS check karein.";
+    } catch (error) {
+      message.textContent = "Error: " + error.message;
+    }
+  });
+
+  verifyButton.addEventListener("click", async () => {
+    if (!confirmationResult) {
+      message.textContent = "Pehle Send OTP dabayein.";
+      return;
+    }
+    const otp = document.getElementById("db-otp").value.trim();
+    try {
+      await confirmationResult.confirm(otp);
+      message.textContent = "Login successful!";
+    } catch (error) {
+      message.textContent = "OTP galat hai ya expire ho gaya hai.";
+    }
+  });
+</script>
 </body></html>
